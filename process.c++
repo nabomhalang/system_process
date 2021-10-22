@@ -2,7 +2,7 @@
 
 int main(void) {
     int size, i, select;
-    printf("어떤 스케줄링을 사용할 것인지 입력하십시오 \n1.FCFS           2.SJF\n3.RR             4.SRT\n입력하세요 : ");
+    printf("어떤 스케줄링을 사용할 것인지 입력하십시오 \n1.FCFS(완)           2.SJF(미완)\n3.RR(미완)           4.SRT(미완)\n입력하세요 : ");
     scanf("%d", &select);
     switch (select)
     {
