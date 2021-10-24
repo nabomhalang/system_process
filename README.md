@@ -7,3 +7,7 @@
 10월 23일 SJF 완료
 
 <img src="./example/sjf.PNG">
+
+RR 미구현
+
+SRT 미구현
