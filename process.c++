@@ -77,18 +77,26 @@ struct setting process_sort(struct setting s, int size) {
 }
 
 void sjf_input(struct setting s, int size) {
-    int waiting_time = 0, total_process = 0, total = 0, gantt[MAX_SIZE][MAX_SIZE];
+    int waiting_time = 0, total_process = 0, total = 0, gantt[MAX_SIZE][MAX_SIZE], arrivalTime_list = { 0, }, arrivalTime_temp = 0, workTime_temp = 0, flag = 0;
     system("clear");
     for(int i = 0; i < size; i++) {
         if(i == 0 && s.arrivalTime[i] > 0) total += s.workTime[i] + s.arrivalTime[i];
         else total += s.workTime[i];
     }
-    memset(gantt, 0, total);
-    for(int i = 0; i < size; i++) {
-        for(int j = 0; j < total; j++) {
-            
+    
+    
+    for(int a = 0; a < size - 1; a++) {
+        for(int b = a+1; b < size; b++) {
+            if(s.arrivalTime[a] == s.arrivalTime[b] && s.workTime[a] > s.workTime[b]) {
+                int temp;
+                temp = s.workTime[a];
+                s.workTime[a] = s.workTime[b];
+                s.workTime[b] = temp;
+            }
         }
     }
+    
+    gant_list_sort(s, size, gantt, total, "SFJ");
 }
 
 void fcfs_input(struct setting s, int size) {
@@ -99,6 +107,12 @@ void fcfs_input(struct setting s, int size) {
         else total += s.workTime[i];
     }
     
+    gant_list_sort(s, size, gantt, total, "FCFS");
+}
+
+void gant_list_sort(struct setting s, int size, int gantt[][MAX_SIZE], int total, char* kind) {
+    int waiting_time = 0, total_process = 0;
+
     memset(gantt, 0, total);
     for(int i = 0; i < size; i++) {
         for(int j = 0; j < total; j++) {
@@ -119,7 +133,7 @@ void fcfs_input(struct setting s, int size) {
             }
         }
     }
-    printf("<------FCFS PROCESSING----->\n");
+    if(kind == "FCFS") printf("<------FCFS PROCESSING----->\n"); else if(kind == "SFJ") printf("<-------SJF PROCESSING----->\n");
     for(int i =0; i< size; i++) {
         waiting_time = 0, total_process = 0;
         for(int j = 0; j < total; j++) {
